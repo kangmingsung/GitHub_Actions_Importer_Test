@@ -1,0 +1,39 @@
+name: SonarQube-gradle
+on:
+  workflow_dispatch:
+env:
+#   # This item has no matching transformer
+#   hudson.plugins.sonar.SonarBuildWrapper:
+#     plugin: sonar@2.17.2
+#     envOnly: 'false'
+jobs:
+  build:
+    runs-on:
+      - ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4.1.0
+    - name: run command
+      shell: bash
+      run: |-
+        cat << EOF > init.gradle
+        allprojects {
+          buildscript {
+            dependencies {
+              classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.3.0.3225"
+            }
+          }
+          afterEvaluate { project ->
+            project.apply plugin: 'org.sonarqube'
+          }
+        }
+        EOF
+    - name: Set up JDK 1.11
+      uses: actions/setup-java@v4.0.0
+      with:
+        distribution: zulu
+        java-version: '1.11'
+        settings-path: "${{ github.workspace }}"
+    - name: Run Gradle command
+      shell: bash
+      run: gradle build -x test --init-script /home/fsiuser/.jenkins/workspace/SonarQube/init.gradle sonar -Dsonar.projectKey=gradletest -Dsonar.projectName=gradle -Dsonar.host.url=http://10.20.180.20:9000 -Dsonar.login=sqp_9145e389527802856bc4e0fa0aac442c63114846
