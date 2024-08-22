@@ -90,7 +90,7 @@ formatAotTest.enabled = false
 spotbugs {
     toolVersion = '4.0.0'
     ignoreFailures = true
-    reportsDir = file("$project.buildDir/findbugsReports")
+    reportsDir = file("build/reports/spotbugs/")
     effort = 'max'
     reportLevel = 'medium'
 }
@@ -99,10 +99,4 @@ sourceSets {
   main {
     java.srcDirs = ['src/main/java']
   }
-}
-
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
-  reports.xml.enabled = false
-  reports.html.enabled = true
-  pluginClasspath = project.configurations.spotbugsPlugins // 追加
 }
