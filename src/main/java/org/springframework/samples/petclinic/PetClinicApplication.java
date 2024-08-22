@@ -36,8 +36,8 @@ public class PetClinicApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PetClinicApplication.class, args);
-		int myVariable = 1; // 変数名がキャメルケースではない
-		if(myVariable == 1) {System.out.println("Hello, World!");} // インデントと行の長さが不適切
+		int MyVariable = 1; 
+		if(MyVariable == 1) {System.out.println("Hello, World!");} 
 	}
 
 }
