@@ -6,7 +6,7 @@ plugins {
   id 'org.cyclonedx.bom' version '1.8.2'
   id 'io.spring.javaformat' version '0.0.41'
   id "io.spring.nohttp" version "0.0.11"
-  id "com.github.spotbugs" version "6.0.20"
+  id 'com.github.spotbugs' version '3.0.0'
 }
 
 apply plugin: 'java'
@@ -52,6 +52,9 @@ dependencies {
   testImplementation 'org.testcontainers:mysql'
   checkstyle 'io.spring.javaformat:spring-javaformat-checkstyle:0.0.41'
   checkstyle 'com.puppycrawl.tools:checkstyle:10.16.0'
+  compileOnly 'com.github.spotbugs:spotbugs:4.0.0'
+  spotbugs configurations.spotbugsPlugins.dependencies
+  spotbugsPlugins  'com.mebigfatguy.fb-contrib:fb-contrib:7.4.7'
 }
 
 tasks.named('test') {
@@ -83,3 +86,23 @@ checkFormatAotTest.enabled = false
 
 formatAot.enabled = false
 formatAotTest.enabled = false
+
+spotbugs {
+    toolVersion = '4.0.0'
+    ignoreFailures = true
+    reportsDir = file("$project.buildDir/findbugsReports")
+    effort = 'max'
+    reportLevel = 'medium'
+}
+
+sourceSets {
+  main {
+    java.srcDirs = ['src/main/java']
+  }
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  reports.xml.enabled = false
+  reports.html.enabled = true
+  pluginClasspath = project.configurations.spotbugsPlugins // 追加
+}
