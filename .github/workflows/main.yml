@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  checkstyle:
+  checkstyle_spotbugs:
     runs-on: ubuntu-latest
 
     steps:
