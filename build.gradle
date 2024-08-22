@@ -6,7 +6,6 @@ plugins {
   id 'org.cyclonedx.bom' version '1.8.2'
   id 'io.spring.javaformat' version '0.0.41'
   id "io.spring.nohttp" version "0.0.11"
-  id "com.github.spotbugs" version "6.0.20"
 }
 
 apply plugin: 'java'
@@ -69,9 +68,6 @@ checkstyleNohttp {
   configFile = file('src/checkstyle/nohttp-checkstyle.xml')
 }
 
-spotbugs {
-  toolVersion = '6.0.20'
-}
 
 tasks.named("formatMain").configure { dependsOn("checkstyleMain") }
 tasks.named("formatMain").configure { dependsOn("checkstyleNohttp") }
