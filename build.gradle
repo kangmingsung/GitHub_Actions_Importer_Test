@@ -6,7 +6,7 @@ plugins {
   id 'org.cyclonedx.bom' version '1.8.2'
   id 'io.spring.javaformat' version '0.0.41'
   id "io.spring.nohttp" version "0.0.11"
-  id 'com.github.spotbugs' version '4.7.6'
+  id "com.github.spotbugs" version "6.0.20"
 }
 
 apply plugin: 'java'
@@ -52,6 +52,7 @@ dependencies {
   testImplementation 'org.testcontainers:mysql'
   checkstyle 'io.spring.javaformat:spring-javaformat-checkstyle:0.0.41'
   checkstyle 'com.puppycrawl.tools:checkstyle:10.16.0'
+  spotbugsPlugins 'com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.20'
 }
 
 tasks.named('test') {
@@ -69,24 +70,9 @@ checkstyleNohttp {
 }
 
 spotbugs {
-    toolVersion = '4.2.3'
-    effort = 'max'
-    reportLevel = 'high'
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
+  toolVersion = '6.0.20'
 }
 
-task spotbugsHtml(type: com.github.spotbugs.snom.SpotBugsTask) {
-    classes = files('build/classes/java/main')
-    source = fileTree('src/main/java')
-    classpath = files()
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
 tasks.named("formatMain").configure { dependsOn("checkstyleMain") }
 tasks.named("formatMain").configure { dependsOn("checkstyleNohttp") }
 
