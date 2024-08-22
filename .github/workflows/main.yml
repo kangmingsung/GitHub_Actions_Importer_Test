@@ -1,4 +1,4 @@
-name: CheckStyle
+name: CheckStyle,SpotBugs
 
 on:
   push:
@@ -36,3 +36,12 @@ jobs:
       with:
         name: checkstyle-report
         path: build/reports/checkstyle/main.html
+
+    - name: Run SpotBugs
+      run: ./gradlew spotbugsMain
+
+    - name: Upload SpotBugs report
+      uses: actions/upload-artifact@v2
+      with:
+        name: spotbugs-report
+        path: build/reports/spotbugs/
