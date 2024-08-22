@@ -11,7 +11,6 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'checkstyle'
 apply plugin: 'io.spring.javaformat'
-apply plugin: 'com.github.spotbugs'
 
 gradle.startParameter.excludedTaskNames += [ "checkFormatAot", "checkFormatAotTest" ]
 
